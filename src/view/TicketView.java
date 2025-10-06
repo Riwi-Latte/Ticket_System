@@ -1,94 +1,112 @@
 package view;
 
 import controller.TicketController;
-import java.util.Scanner;
+import javax.swing.JOptionPane;
 
 public class TicketView {
 
     private TicketController controller;
-    private Scanner scanner;
 
     public TicketView() {
         controller = new TicketController();
-        scanner = new Scanner(System.in);
     }
 
     public void mostrarMenu() {
-        int opcion = 0;
+        int option = 0;
 
         do {
-            System.out.println("\n===============================");
-            System.out.println("      GESTIÓN DE TICKETS");
-            System.out.println("===============================");
-            System.out.println("1. Crear Ticket");
-            System.out.println("2. Buscar Ticket por ID");
-            System.out.println("3. Actualizar Ticket");
-            System.out.println("4. Salir");
-            System.out.print("Seleccione una opción: ");
+            String menu = """
+                    ===============================
+                          GESTIÓN DE TICKETS
+                    ===============================
+                    1. Crear Ticket
+                    2. Buscar Ticket por ID
+                    3. Actualizar Ticket
+                    4. Salir
+                    """;
+
+            String input = JOptionPane.showInputDialog(null, menu + "\nSeleccione una opción:", "Menú Principal", JOptionPane.QUESTION_MESSAGE);
+            if (input == null) {                
+                return;
+            }
 
             try {
-                opcion = Integer.parseInt(scanner.nextLine());
+                option = Integer.parseInt(input);
             } catch (NumberFormatException e) {
-                System.out.println("Por favor, ingrese un número válido.");
+                JOptionPane.showMessageDialog(null, "Por favor, ingrese un número válido.", "Error", JOptionPane.WARNING_MESSAGE);
                 continue;
             }
 
-            switch (opcion) {
-                case 1 -> crearTicket();
-                case 2 -> buscarTicketPorId();
-                case 3 -> actualizarTicket();
-                case 4 -> System.out.println("Saliendo del sistema...");
-                default -> System.out.println("Opción no válida. Intente de nuevo.");
+            switch (option) {
+                case 1 -> createTicket();
+                case 2 -> searchTicketById();
+                case 3 -> updateTicket();
+                case 4 -> JOptionPane.showMessageDialog(null, "Saliendo del sistema...", "Salir", JOptionPane.INFORMATION_MESSAGE);
+                default -> JOptionPane.showMessageDialog(null, "Opción no válida. Intente de nuevo.", "Error", JOptionPane.ERROR_MESSAGE);
             }
 
-        } while (opcion != 4);
-    }
-
-  
-    private void crearTicket() {
-        System.out.println("\n CREAR NUEVO TICKET");
-
-        System.out.print("Título: ");
-        String titulo = scanner.nextLine();
-
-        System.out.print("Descripción: ");
-        String descripcion = scanner.nextLine();
-
-        System.out.print("ID del usuario que reporta: ");
-        int idUsuario = Integer.parseInt(scanner.nextLine());
-
-        System.out.print("ID de la categoría: ");
-        int idCategoria = Integer.parseInt(scanner.nextLine());
-
-        controller.crearTicket(titulo, descripcion, idUsuario, idCategoria);
+        } while (option != 4);
     }
 
     
-    private void buscarTicketPorId() {
-        System.out.println("\n BUSCAR TICKET POR ID");
 
-        System.out.print("Ingrese el ID del ticket: ");
-        int id = Integer.parseInt(scanner.nextLine());
+    private void createTicket() {
+        String title = JOptionPane.showInputDialog("Título:");
+        if (title == null) return;
 
-        controller.buscarTicketPorId(id);
+        String description = JOptionPane.showInputDialog("Descripción:");
+        if (description == null) return;
+
+        String idUserStr = JOptionPane.showInputDialog("ID del usuario que reporta:");
+        if (idUserStr == null) return;
+
+        String idCategoryStr = JOptionPane.showInputDialog("ID de la categoría:");
+        if (idCategoryStr == null) return;
+
+        try {
+            int idUser = Integer.parseInt(idUserStr);
+            int idCategory = Integer.parseInt(idCategoryStr);
+            controller.createTicket(title, description, idUser, idCategory);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Los ID deben ser números válidos.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
-    
-    private void actualizarTicket() {
-        System.out.println("\n ACTUALIZAR TICKET");
 
-        System.out.print("Ingrese el ID del ticket: ");
-        int id = Integer.parseInt(scanner.nextLine());
 
-        System.out.print("Nuevo título: ");
-        String nuevoTitulo = scanner.nextLine();
+    private void searchTicketById() {
+        String idStr = JOptionPane.showInputDialog("Ingrese el ID del ticket:");
+        if (idStr == null) return;
 
-        System.out.print("Nueva descripción: ");
-        String nuevaDescripcion = scanner.nextLine();
+        try {
+            int id = Integer.parseInt(idStr);
+            controller.searchTicketById(id);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "El ID debe ser un número válido.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
 
-        System.out.print("Nuevo estado (Open, In Progress, Resolved, Closed): ");
-        String nuevoEstado = scanner.nextLine();
 
-        controller.actualizarTicket(id, nuevoTitulo, nuevaDescripcion, nuevoEstado);
+
+    private void updateTicket() {
+        String idStr = JOptionPane.showInputDialog("Ingrese el ID del ticket:");
+        if (idStr == null) return;
+
+        try {
+            int id = Integer.parseInt(idStr);
+
+            String newTitle = JOptionPane.showInputDialog("Nuevo título:");
+            if (newTitle == null) return;
+
+            String newDescription = JOptionPane.showInputDialog("Nueva descripción:");
+            if (newDescription == null) return;
+
+            String newStatus = JOptionPane.showInputDialog("Nuevo estado (Open, In Progress, Resolved, Closed):");
+            if (newStatus == null) return;
+
+            controller.updateTicket(id, newTitle, newDescription, newStatus);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "El ID debe ser un número válido.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 }

@@ -1,10 +1,11 @@
 package controller;
 
 import domain.Ticket;
-import domain.Usuario;
-import domain.Categoria;
+import domain.User;
+import domain.Category;
 import service.TicketService;
 import java.time.LocalDateTime;
+import java.util.Locale.Category;
 
 public class TicketController {
 
@@ -15,23 +16,23 @@ public class TicketController {
     }
 
 
-    public void crearTicket(String titulo, String descripcion, int idUsuario, int idCategoria) {
+    public void createTicket(String title, String description, int idUser, int idCategory) {
         try {
-            Usuario usuario = new Usuario();
-            usuario.setUserId(idUsuario);
+            User user = new User();
+            user.setUserId(idUser);
 
-            Categoria categoria = new Categoria();
-            categoria.setCategoryId(idCategoria);
+            Category category = new Categoria();
+            category.setCategoryId(idCategory);
 
             Ticket ticket = new Ticket();
-            ticket.setTitle(titulo);
-            ticket.setDescription(descripcion);
+            ticket.setTitle(title);
+            ticket.setDescription(description);
             ticket.setStartDate(LocalDateTime.now());
             ticket.setStatus("Open");
-            ticket.setReportedUser(usuario);
-            ticket.setCategory(categoria);
+            ticket.setReportedUser(user);
+            ticket.setCategory(category);
 
-            ticketService.crearTicket(ticket);
+            ticketService.createTicket(ticket);
 
             System.out.println("Ticket creado correctamente.");
 
@@ -41,20 +42,20 @@ public class TicketController {
     }
 
 
-    public void actualizarTicket(int idTicket, String nuevoTitulo, String nuevaDescripcion, String nuevoEstado) {
+    public void updateTicket(int idTicket, String newTitle, String newDescription, String newStatus) {
         try {
-            Ticket ticket = ticketService.buscarPorId(idTicket);
+            Ticket ticket = ticketService.searchById(idTicket);
 
             if (ticket == null) {
                 System.out.println("No se encontró el ticket con ID " + idTicket);
                 return;
             }
 
-            ticket.setTitle(nuevoTitulo);
-            ticket.setDescription(nuevaDescripcion);
-            ticket.setStatus(nuevoEstado);
+            ticket.setTitle(newTitle);
+            ticket.setDescription(newDescription);
+            ticket.setStatus(newStatus);
 
-            ticketService.actualizarTicket(ticket);
+            ticketService.updateTicket(ticket);
 
             System.out.println("Ticket actualizado correctamente.");
 
@@ -64,9 +65,9 @@ public class TicketController {
     }
 
 
-    public void buscarTicketPorId(int idTicket) {
+    public void searchTicketById(int idTicket) {
         try {
-            Ticket ticket = ticketService.buscarPorId(idTicket);
+            Ticket ticket = ticketService.searchById(idTicket);
 
             if (ticket != null) {
                 System.out.println("Ticket encontrado:");

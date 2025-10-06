@@ -1,21 +1,21 @@
 package dao;
 
-import config.DbConfig;
 import domain.Ticket;
 import domain.Usuario;
 import domain.Categoria;
 
+import javax.swing.JOptionPane;
 import java.sql.*;
 import java.time.LocalDateTime;
 
 public class TicketDaoImpl implements TicketDao {
 
     @Override
-    public void crear(Ticket ticket) {
+    public void create(Ticket ticket) {
         String sql = "INSERT INTO tickets (title, ticket_description, start_date, end_date, status, assigned_user_id, reported_user_id, category_id) " +
                      "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
-        try (Connection conn = Dbconfig.getConnection();
+        try (Connection conn = DbConfig.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             stmt.setString(1, ticket.getTitle());
@@ -35,15 +35,19 @@ public class TicketDaoImpl implements TicketDao {
                 }
             }
 
-            System.out.println("Ticket creado correctamente con ID: " + ticket.getTicketId());
+            JOptionPane.showMessageDialog(null,
+                    "Ticket creado correctamente con ID: " + ticket.getTicketId(),
+                    "Éxito", JOptionPane.INFORMATION_MESSAGE);
 
         } catch (SQLException e) {
-            System.err.println("Error al crear el ticket: " + e.getMessage());
+            JOptionPane.showMessageDialog(null,
+                    "Error al crear el ticket:\n" + e.getMessage(),
+                    "Error SQL", JOptionPane.ERROR_MESSAGE);
         }
     }
 
     @Override
-    public void actualizar(Ticket ticket) {
+    public void update(Ticket ticket) {
         String sql = "UPDATE tickets SET title = ?, ticket_description = ?, end_date = ?, status = ?, assigned_user_id = ?, category_id = ? " +
                      "WHERE ticket_id = ?";
 
@@ -61,18 +65,24 @@ public class TicketDaoImpl implements TicketDao {
             int rowsUpdated = stmt.executeUpdate();
 
             if (rowsUpdated > 0) {
-                System.out.println("Ticket actualizado correctamente.");
+                JOptionPane.showMessageDialog(null,
+                        "Ticket actualizado correctamente.",
+                        "Éxito", JOptionPane.INFORMATION_MESSAGE);
             } else {
-                System.out.println("No se encontró un ticket con ese ID.");
+                JOptionPane.showMessageDialog(null,
+                        "No se encontró un ticket con ese ID.",
+                        "Aviso", JOptionPane.WARNING_MESSAGE);
             }
 
         } catch (SQLException e) {
-            System.err.println("Error al actualizar el ticket: " + e.getMessage());
+            JOptionPane.showMessageDialog(null,
+                    "Error al actualizar el ticket:\n" + e.getMessage(),
+                    "Error SQL", JOptionPane.ERROR_MESSAGE);
         }
     }
 
     @Override
-    public Ticket buscarPorId(int id) {
+    public Ticket searchById(int id) {
         String sql = "SELECT * FROM tickets WHERE ticket_id = ?";
         Ticket ticket = null;
 
@@ -107,10 +117,16 @@ public class TicketDaoImpl implements TicketDao {
                 Categoria categoria = new Categoria();
                 categoria.setCategoryId(rs.getInt("category_id"));
                 ticket.setCategory(categoria);
+            } else {
+                JOptionPane.showMessageDialog(null,
+                        "No se encontró ningún ticket con ID: " + id,
+                        "Aviso", JOptionPane.WARNING_MESSAGE);
             }
 
         } catch (SQLException e) {
-            System.err.println("Error al buscar el ticket: " + e.getMessage());
+            JOptionPane.showMessageDialog(null,
+                    "Error al buscar el ticket:\n" + e.getMessage(),
+                    "Error SQL", JOptionPane.ERROR_MESSAGE);
         }
 
         return ticket;

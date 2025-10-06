@@ -9,12 +9,11 @@ public class Ticket {
     private String description;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
-    private String status; 
+    private String status;
 
     private Usuario assignedUser;
     private Usuario reportedUser;
     private Categoria category;
-
 
     public Ticket() {
     }
@@ -33,7 +32,7 @@ public class Ticket {
         this.category = category;
     }
 
-
+    
     public int getTicketId() {
         return ticketId;
     }
@@ -106,18 +105,20 @@ public class Ticket {
         this.category = category;
     }
 
+  
     @Override
     public String toString() {
-        return "Ticket{" +
-                "ticketId=" + ticketId +
-                ", title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                ", startDate=" + startDate +
-                ", endDate=" + endDate +
-                ", status='" + status + '\'' +
-                ", assignedUser=" + (assignedUser != null ? assignedUser.getNombre() : "null") +
-                ", reportedUser=" + (reportedUser != null ? reportedUser.getNombre() : "null") +
-                ", category=" + (category != null ? category.getNombre() : "null") +
-                '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append("Ticket ID: ").append(ticketId).append("\n")
+          .append("Título: ").append(title).append("\n")
+          .append("Descripción: ").append(description).append("\n")
+          .append("Fecha inicio: ").append(startDate != null ? startDate : "N/A").append("\n")
+          .append("Fecha fin: ").append(endDate != null ? endDate : "N/A").append("\n")
+          .append("Estado: ").append(status).append("\n")
+          .append("Asignado a: ").append(assignedUser != null ? assignedUser.getNombre() + " (ID " + assignedUser.getUserId() + ")" : "Sin asignar").append("\n")
+          .append("Reportado por: ").append(reportedUser != null ? reportedUser.getNombre() + " (ID " + reportedUser.getUserId() + ")" : "Desconocido").append("\n")
+          .append("Categoría: ").append(category != null ? category.getNombre() + " (ID " + category.getCategoryId() + ")" : "Sin categoría").append("\n");
+
+        return sb.toString();
     }
 }
