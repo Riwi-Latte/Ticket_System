@@ -2,10 +2,11 @@ package controller;
 
 import domain.Ticket;
 import domain.UserDomain;
-import domain.Category;
+import domain.categoryDomain;
 import service.TicketService;
 import java.time.LocalDateTime;
-import java.util.Locale.Category;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 public class TicketController {
 
@@ -15,13 +16,12 @@ public class TicketController {
         this.ticketService = new TicketService();
     }
 
-
     public void createTicket(String title, String description, int idUser, int idCategory) {
         try {
             UserDomain user = new UserDomain();
             user.setUserId(idUser);
 
-            Category category = new Category();
+            categoryDomain category = new categoryDomain();
             category.setCategoryId(idCategory);
 
             Ticket ticket = new Ticket();
@@ -34,20 +34,28 @@ public class TicketController {
 
             ticketService.createTicket(ticket);
 
-            System.out.println("Ticket creado correctamente.");
+            JOptionPane.showMessageDialog(null,
+                    "Ticket creado correctamente.",
+                    "Éxito",
+                    JOptionPane.INFORMATION_MESSAGE);
 
         } catch (Exception e) {
-            System.out.println("Error al crear el ticket: " + e.getMessage());
+            JOptionPane.showMessageDialog(null,
+                    "Error al crear el ticket:\n" + e.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
         }
     }
-
 
     public void updateTicket(int idTicket, String newTitle, String newDescription, String newStatus) {
         try {
             Ticket ticket = ticketService.searchById(idTicket);
 
             if (ticket == null) {
-                System.out.println("No se encontró el ticket con ID " + idTicket);
+                JOptionPane.showMessageDialog(null,
+                        "No se encontró el ticket con ID " + idTicket,
+                        "Aviso",
+                        JOptionPane.WARNING_MESSAGE);
                 return;
             }
 
@@ -57,33 +65,54 @@ public class TicketController {
 
             ticketService.updateTicket(ticket);
 
-            System.out.println("Ticket actualizado correctamente.");
+            JOptionPane.showMessageDialog(null,
+                    "Ticket actualizado correctamente.",
+                    "Éxito",
+                    JOptionPane.INFORMATION_MESSAGE);
 
         } catch (Exception e) {
-            System.out.println("Error al actualizar el ticket: " + e.getMessage());
+            JOptionPane.showMessageDialog(null,
+                    "Error al actualizar el ticket:\n" + e.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
         }
     }
-
 
     public void searchTicketById(int idTicket) {
         try {
             Ticket ticket = ticketService.searchById(idTicket);
 
             if (ticket != null) {
-                System.out.println("Ticket encontrado:");
-                System.out.println("ID: " + ticket.getTicketId());
-                System.out.println("Título: " + ticket.getTitle());
-                System.out.println("Descripción: " + ticket.getDescription());
-                System.out.println("Estado: " + ticket.getStatus());
-                System.out.println("Fecha de creación: " + ticket.getStartDate());
-                System.out.println("Usuario reportante ID: " + ticket.getReportedUser().getUserId());
-                System.out.println("Categoría ID: " + ticket.getCategory().getCategoryId());
+                String info = "Ticket encontrado:\n"
+                        + "ID: " + ticket.getTicketId() + "\n"
+                        + "Título: " + ticket.getTitle() + "\n"
+                        + "Descripción: " + ticket.getDescription() + "\n"
+                        + "Estado: " + ticket.getStatus() + "\n"
+                        + "Fecha de creación: " + ticket.getStartDate() + "\n"
+                        + "Usuario reportante ID: " + ticket.getReportedUser().getUserId() + "\n"
+                        + "Categoría ID: " + ticket.getCategory().getCategoryId();
+
+                JOptionPane.showMessageDialog(null,
+                        info,
+                        "Detalles del Ticket",
+                        JOptionPane.INFORMATION_MESSAGE);
             } else {
-                System.out.println("No se encontró ningún ticket con ID " + idTicket);
+                JOptionPane.showMessageDialog(null,
+                        "No se encontró ningún ticket con ID " + idTicket,
+                        "Aviso",
+                        JOptionPane.WARNING_MESSAGE);
             }
 
         } catch (Exception e) {
-            System.out.println("Error al buscar el ticket: " + e.getMessage());
+            JOptionPane.showMessageDialog(null,
+                    "Error al buscar el ticket:\n" + e.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    public ArrayList<Ticket> findAll() {
+        ArrayList<Ticket> tickets = ticketService.findAll();
+        return tickets;
     }
 }

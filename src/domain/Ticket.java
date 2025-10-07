@@ -14,14 +14,14 @@ public class Ticket {
 
     private UserDomain assignedUser;
     private UserDomain reportedUser;
-    private Category category;
+    private categoryDomain category;
 
     public Ticket() {
     }
 
     public Ticket(int ticketId, String title, String description, LocalDateTime startDate,
                   LocalDateTime endDate, String status, UserDomain assignedUser,
-                  UserDomain reportedUser, Category category) {
+                  UserDomain reportedUser, categoryDomain category) {
         this.ticketId = ticketId;
         this.title = title;
         this.description = description;
@@ -98,11 +98,11 @@ public class Ticket {
         this.reportedUser = reportedUser;
     }
 
-    public Category getCategory() {
+    public categoryDomain getCategory() {
         return category;
     }
 
-    public void setCategory(Category category) {
+    public void setCategory(categoryDomain category) {
         this.category = category;
     }
 

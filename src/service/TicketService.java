@@ -4,6 +4,8 @@ import dao.TicketDao;
 import dao.TicketDaoImpl;
 import domain.Ticket;
 
+import java.util.ArrayList;
+
 import javax.swing.JOptionPane;
 
 public class TicketService {
@@ -16,7 +18,7 @@ public class TicketService {
 
     public void createTicket(Ticket ticket) {
         if (ticket == null) {
-            JOptionPane.showMessageDialog(null, "❌ El ticket no puede ser nulo.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "El ticket no puede ser nulo.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
         if (ticket.getTitle() == null || ticket.getTitle().isEmpty()) {
@@ -36,6 +38,7 @@ public class TicketService {
         JOptionPane.showMessageDialog(null, "Ticket creado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
     }
 
+
     public void updateTicket(Ticket ticket) {
         if (ticket == null || ticket.getTicketId() == 0) {
             JOptionPane.showMessageDialog(null, "Debe indicar un ticket existente para actualizar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
@@ -45,6 +48,7 @@ public class TicketService {
         ticketDao.update(ticket);
         JOptionPane.showMessageDialog(null, "Ticket actualizado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
     }
+
 
     public Ticket searchById(int id) {
         if (id <= 0) {
@@ -60,5 +64,10 @@ public class TicketService {
         }
 
         return ticket;
+    }
+
+
+    public ArrayList<Ticket> findAll(){
+        return ticketDao.findAll();
     }
 }
