@@ -118,7 +118,7 @@ public class Ticket {
           .append("Estado: ").append(status).append("\n")
           .append("Asignado a: ").append(assignedUser != null ? assignedUser.getFullName() + " (ID " + assignedUser.getUserId() + ")" : "Sin asignar").append("\n")
           .append("Reportado por: ").append(reportedUser != null ? reportedUser.getFullName() + " (ID " + reportedUser.getUserId() + ")" : "Desconocido").append("\n")
-          .append("Categoría: ").append(category != null ? category.getName() + " (ID " + category.getCategoryId() + ")" : "Sin categoría").append("\n");
+          .append("Categoría: ").append(category != null ? category.getCategoryName() + " (ID " + category.getCategoryId() + ")" : "Sin categoría").append("\n");
 
         return sb.toString();
     }
