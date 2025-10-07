@@ -5,7 +5,7 @@ import javax.swing.JOptionPane;
 
 public class MainView {
 
-    public static void start(UserController userController) {
+    public static void start(UserController userController, categoryView categoryView) {
         String option;
 
         do {
@@ -13,10 +13,11 @@ public class MainView {
                           "1. Crear ticket\n" +
                           "2. Asignar ticket\n" +
                           "3. Cambiar estado\n" +
-                          "4. Buscar por estado + categoria\n" +
-                          "5. Listar por asignado\n" +
-                          "6. Top 3 categorias\n" +
-                          "7. Gestion de usuarios\n" +
+                          "4. Crear categoria\n" +
+                          "5. Buscar por estado + categoria\n" +
+                          "6. Listar por asignado\n" +
+                          "7. Top 3 categorias\n" +
+                          "8. Gestion de usuarios\n" +
                           "0. Salir\n\n" +
                           "Seleccione una opcion:";
 
@@ -40,18 +41,22 @@ public class MainView {
                 break;
 
             case "4":
-                JOptionPane.showMessageDialog(null, "Funcionalidad en desarrollo - Buscar por estado + categoria");
+                categoryView.categoryMenu();
                 break;
 
             case "5":
-                JOptionPane.showMessageDialog(null, "Funcionalidad en desarrollo - Listar por asignado");
+                JOptionPane.showMessageDialog(null, "Funcionalidad en desarrollo - Buscar por estado + categoria");
                 break;
 
             case "6":
-                JOptionPane.showMessageDialog(null, "Funcionalidad en desarrollo - Top 3 categorias");
+                JOptionPane.showMessageDialog(null, "Funcionalidad en desarrollo - Listar por asignado");
                 break;
 
             case "7":
+                JOptionPane.showMessageDialog(null, "Funcionalidad en desarrollo - Top 3 categorias");
+                break;
+
+            case "8":
                 UserView.showMenu(userController);
                 break;
 
