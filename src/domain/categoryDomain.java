@@ -27,4 +27,9 @@ public class categoryDomain {
         this.categoryName = name;
     };
 
+    @Override
+    public String toString() {
+        return "ID: " + categoryId + " | Nombre: " + categoryName;
+    }
+
 }
