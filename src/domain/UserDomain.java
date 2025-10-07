@@ -67,4 +67,5 @@ public class UserDomain {
                 ", Phone: " + phoneNumber +
                 ", Role: " + role;
     }
+
 }
