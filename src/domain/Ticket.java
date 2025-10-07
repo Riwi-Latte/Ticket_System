@@ -1,6 +1,7 @@
 package domain;
 
 import java.time.LocalDateTime;
+import java.util.Locale.Category;
 
 public class Ticket {
 
@@ -11,16 +12,16 @@ public class Ticket {
     private LocalDateTime endDate;
     private String status;
 
-    private Usuario assignedUser;
-    private Usuario reportedUser;
-    private Categoria category;
+    private UserDomain assignedUser;
+    private UserDomain reportedUser;
+    private Category category;
 
     public Ticket() {
     }
 
     public Ticket(int ticketId, String title, String description, LocalDateTime startDate,
-                  LocalDateTime endDate, String status, Usuario assignedUser,
-                  Usuario reportedUser, Categoria category) {
+                  LocalDateTime endDate, String status, UserDomain assignedUser,
+                  UserDomain reportedUser, Category category) {
         this.ticketId = ticketId;
         this.title = title;
         this.description = description;
@@ -81,27 +82,27 @@ public class Ticket {
         this.status = status;
     }
 
-    public Usuario getAssignedUser() {
+    public UserDomain getAssignedUser() {
         return assignedUser;
     }
 
-    public void setAssignedUser(Usuario assignedUser) {
+    public void setAssignedUser(UserDomain assignedUser) {
         this.assignedUser = assignedUser;
     }
 
-    public Usuario getReportedUser() {
+    public UserDomain getReportedUser() {
         return reportedUser;
     }
 
-    public void setReportedUser(Usuario reportedUser) {
+    public void setReportedUser(UserDomain reportedUser) {
         this.reportedUser = reportedUser;
     }
 
-    public Categoria getCategory() {
+    public Category getCategory() {
         return category;
     }
 
-    public void setCategory(Categoria category) {
+    public void setCategory(Category category) {
         this.category = category;
     }
 
@@ -115,9 +116,9 @@ public class Ticket {
           .append("Fecha inicio: ").append(startDate != null ? startDate : "N/A").append("\n")
           .append("Fecha fin: ").append(endDate != null ? endDate : "N/A").append("\n")
           .append("Estado: ").append(status).append("\n")
-          .append("Asignado a: ").append(assignedUser != null ? assignedUser.getNombre() + " (ID " + assignedUser.getUserId() + ")" : "Sin asignar").append("\n")
-          .append("Reportado por: ").append(reportedUser != null ? reportedUser.getNombre() + " (ID " + reportedUser.getUserId() + ")" : "Desconocido").append("\n")
-          .append("Categoría: ").append(category != null ? category.getNombre() + " (ID " + category.getCategoryId() + ")" : "Sin categoría").append("\n");
+          .append("Asignado a: ").append(assignedUser != null ? assignedUser.getFullName() + " (ID " + assignedUser.getUserId() + ")" : "Sin asignar").append("\n")
+          .append("Reportado por: ").append(reportedUser != null ? reportedUser.getFullName() + " (ID " + reportedUser.getUserId() + ")" : "Desconocido").append("\n")
+          .append("Categoría: ").append(category != null ? category.getName() + " (ID " + category.getCategoryId() + ")" : "Sin categoría").append("\n");
 
         return sb.toString();
     }

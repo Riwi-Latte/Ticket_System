@@ -1,12 +1,14 @@
 package dao;
 
 import domain.Ticket;
-import domain.Usuario;
-import domain.Categoria;
+import domain.UserDomain;
+import domain.Category;
+import config.DbConfig;
 
 import javax.swing.JOptionPane;
 import java.sql.*;
 import java.time.LocalDateTime;
+import java.util.Locale.Category;
 
 public class TicketDaoImpl implements TicketDao {
 
@@ -106,15 +108,15 @@ public class TicketDaoImpl implements TicketDao {
 
                 ticket.setStatus(rs.getString("status"));
 
-                Usuario assigned = new Usuario();
+                UserDomain assigned = new UserDomain();
                 assigned.setUserId(rs.getInt("assigned_user_id"));
                 ticket.setAssignedUser(assigned);
 
-                Usuario reporter = new Usuario();
+                UserDomain reporter = new UserDomain();
                 reporter.setUserId(rs.getInt("reported_user_id"));
                 ticket.setReportedUser(reporter);
 
-                Categoria categoria = new Categoria();
+                Category categoria = new Category();
                 categoria.setCategoryId(rs.getInt("category_id"));
                 ticket.setCategory(categoria);
             } else {

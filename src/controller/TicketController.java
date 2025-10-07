@@ -1,7 +1,7 @@
 package controller;
 
 import domain.Ticket;
-import domain.User;
+import domain.UserDomain;
 import domain.Category;
 import service.TicketService;
 import java.time.LocalDateTime;
@@ -18,10 +18,10 @@ public class TicketController {
 
     public void createTicket(String title, String description, int idUser, int idCategory) {
         try {
-            User user = new User();
+            UserDomain user = new UserDomain();
             user.setUserId(idUser);
 
-            Category category = new Categoria();
+            Category category = new Category();
             category.setCategoryId(idCategory);
 
             Ticket ticket = new Ticket();
