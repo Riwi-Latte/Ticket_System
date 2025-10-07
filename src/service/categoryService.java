@@ -26,8 +26,16 @@ public class categoryService {
 
     };
 
-    public void deleteCategoryService(int id) {
+    public boolean deleteCategoryService(int id) {
+
+        boolean exists = foundCategoriesServiceById(id);
+
+        if (exists) {
+            categoryDao.deleteCategoryDao(id);
+            return true;
+        }
     
+        return false;
     };
 
     public Boolean foundCategoriesService(String name) {
@@ -42,10 +50,41 @@ public class categoryService {
             if (category.getCategoryName().equalsIgnoreCase(name)) {
                 return true;
             }
-        }
-
-
+        };
         return false;
    
+    };
+
+    public Boolean foundCategoriesServiceById(int id) {
+        
+        ArrayList<categoryDomain> list = categoryDao.listCategoriesDao();
+
+        if (id <= 0) {
+            return false;
+        }
+
+        for (categoryDomain category : list) {
+            if (category.getCategoryId() == id) {
+                return true;
+            }
+        };
+        return false;
+   
+    };
+
+    public String listCategoryService() {
+        
+        ArrayList<categoryDomain> list = categoryDao.listCategoriesDao();
+
+        if (list.isEmpty()) {
+            return "No hay categorias registradas";
+        }
+
+        StringBuilder result = new StringBuilder("Lista de Categorias:\n\n");
+        for (categoryDomain category : list) {
+            result.append(category.toString()).append("\n");
+        }
+
+        return result.toString();
     };
 }
