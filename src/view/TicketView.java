@@ -1,0 +1,141 @@
+package view;
+
+import controller.TicketController;
+import domain.Ticket;
+import javax.swing.JOptionPane;
+import java.util.ArrayList;
+
+public class TicketView {
+
+    private TicketController controller;
+
+    public TicketView() {
+        controller = new TicketController();
+    }
+
+    public void mostrarMenu() {
+        int option = 0;
+
+        do {
+            String menu = """
+                    ===============================
+                          GESTIÓN DE TICKETS
+                    ===============================
+                    1. Crear Ticket
+                    2. Buscar Ticket por ID
+                    3. Actualizar Ticket
+                    4. Listar todos los Tickets
+                    5. Salir
+                    """;
+
+            String input = JOptionPane.showInputDialog(null, menu + "\nSeleccione una opción:", 
+                    "Menú Principal", JOptionPane.QUESTION_MESSAGE);
+
+            if (input == null) {                
+                return; 
+            }
+
+            try {
+                option = Integer.parseInt(input);
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Por favor, ingrese un número válido.", 
+                        "Error", JOptionPane.WARNING_MESSAGE);
+                continue;
+            }
+
+            switch (option) {
+                case 1 -> createTicket();
+                case 2 -> searchTicketById();
+                case 3 -> updateTicket();
+                case 4 -> listAllTickets(); 
+                case 5 -> JOptionPane.showMessageDialog(null, 
+                        "Saliendo del sistema...", "Salir", JOptionPane.INFORMATION_MESSAGE);
+                default -> JOptionPane.showMessageDialog(null, 
+                        "Opción no válida. Intente de nuevo.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+
+        } while (option != 5);
+    }
+
+    private void createTicket() {
+        String title = JOptionPane.showInputDialog("Título:");
+        if (title == null) return;
+
+        String description = JOptionPane.showInputDialog("Descripción:");
+        if (description == null) return;
+
+        String idUserStr = JOptionPane.showInputDialog("ID del usuario que reporta:");
+        if (idUserStr == null) return;
+
+        String idCategoryStr = JOptionPane.showInputDialog("ID de la categoría:");
+        if (idCategoryStr == null) return;
+
+        try {
+            int idUser = Integer.parseInt(idUserStr);
+            int idCategory = Integer.parseInt(idCategoryStr);
+            controller.createTicket(title, description, idUser, idCategory);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Los ID deben ser números válidos.", 
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void searchTicketById() {
+        String idStr = JOptionPane.showInputDialog("Ingrese el ID del ticket:");
+        if (idStr == null) return;
+
+        try {
+            int id = Integer.parseInt(idStr);
+            controller.searchTicketById(id);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "El ID debe ser un número válido.", 
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void updateTicket() {
+        String idStr = JOptionPane.showInputDialog("Ingrese el ID del ticket:");
+        if (idStr == null) return;
+
+        try {
+            int id = Integer.parseInt(idStr);
+
+            String newTitle = JOptionPane.showInputDialog("Nuevo título:");
+            if (newTitle == null) return;
+
+            String newDescription = JOptionPane.showInputDialog("Nueva descripción:");
+            if (newDescription == null) return;
+
+            String newStatus = JOptionPane.showInputDialog("Nuevo estado (Open, In Progress, Resolved, Closed):");
+            if (newStatus == null) return;
+
+            controller.updateTicket(id, newTitle, newDescription, newStatus);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "El ID debe ser un número válido.", 
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void listAllTickets() {
+        ArrayList<Ticket> tickets = controller.findAll();
+
+        if (tickets.isEmpty()) {
+            JOptionPane.showMessageDialog(null, 
+                    "No hay tickets registrados.", 
+                    "Lista vacía", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+
+        StringBuilder info = new StringBuilder("=== LISTA DE TICKETS ===\n\n");
+        for (Ticket t : tickets) {
+            info.append("ID: ").append(t.getTicketId())
+                .append("Título: ").append(t.getTitle())
+                .append("Descripcion: ").append(t.getDescription())
+                .append("Estado: ").append(t.getStatus())
+                .append("\n");
+        }
+
+        JOptionPane.showMessageDialog(null, info.toString(), 
+                "Tickets Registrados", JOptionPane.INFORMATION_MESSAGE);
+    }
+}
