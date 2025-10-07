@@ -6,9 +6,7 @@ import dao.categoryDao;
 import service.UserService;
 import service.categoryService;
 
-import java.sql.Connection;
 
-import config.DbConfig;
 import controller.UserController;
 import controller.categoryController;
 import view.MainView;
