@@ -33,28 +33,34 @@ public class categoryView {
 
             switch (input) {
                 case "1":
-                    
+                    createCategory();
                     break;
 
                 case "2":
+                    deleteCategory();
                     break;
 
                 case "3":
+                    listCategory();
                     break;    
+
+                case "4":
+                    JOptionPane.showMessageDialog(null, "Saliendo del menu de categorias.", "Salir", JOptionPane.INFORMATION_MESSAGE);   
+                    break;
 
                 default:
                     showError("Opcion invalida. Intente nuevamente.");
             }
             
-        } while (input != "4");
+        } while (!input.equals("4"));
 
 
-    }
+    };
 
     public void showError(String message) {
         //Show messege error
         JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.ERROR_MESSAGE);   
-    }
+    };
 
     public void createCategory(){
 
@@ -77,13 +83,40 @@ public class categoryView {
             
         } catch (NumberFormatException e) {
             showError("Error al crear la categoria. Intente nuevamente.");
-        }
+        };
+    };
 
+    public void deleteCategory(){
 
+        try {
+            String idCategory = JOptionPane.showInputDialog("Ingrese el ID de la categoria a eliminar:");
+
+            if (idCategory == null || idCategory.isEmpty()) {
+                showError("Error al eliminar la categoria. Intente nuevamente.");
+                return;
+                
+            }
+
+            int id = Integer.parseInt(idCategory);
+            Boolean delete = categoryController.deleteCategoryController(id);
+
+            if (delete) {
+                JOptionPane.showMessageDialog(null, "Categoria eliminada exitosamente.", "Exito", JOptionPane.INFORMATION_MESSAGE);   
+            } else {
+                showError("No se encontro la categoria. Intente nuevamente.");
+            }
+            
+        } catch (NumberFormatException e) {
+            showError("Error al eliminar la categoria. Intente nuevamente.");
+        };
+    };
+
+    public void listCategory(){
         
+        String list = categoryController.listCategoryController();
+
+        JOptionPane.showMessageDialog(null, list, "Lista de categorias", JOptionPane.INFORMATION_MESSAGE);
+    };
 
 
-    }
-
-
-}
+};
