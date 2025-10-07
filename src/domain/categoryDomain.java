@@ -5,6 +5,9 @@ public class categoryDomain {
     private int categoryId;
     private String categoryName;
 
+    public categoryDomain(){
+    }
+
     public categoryDomain(int id, String name) {
         this.categoryId = id;
         this.categoryName = name;
