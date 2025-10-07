@@ -12,8 +12,19 @@ public class categoryController {
     
     public boolean createCategoryController(String name) {
      
-        return categoryService.createCategoryService(name);
+        return categoryService.createCategoryService(name);//true
 
+    };
 
-    }
+    public boolean deleteCategoryController(int id) {
+     
+        return categoryService.deleteCategoryService(id);
+
+    };
+
+    public String listCategoryController() {
+     
+        return categoryService.listCategoryService();
+
+    };
 }
